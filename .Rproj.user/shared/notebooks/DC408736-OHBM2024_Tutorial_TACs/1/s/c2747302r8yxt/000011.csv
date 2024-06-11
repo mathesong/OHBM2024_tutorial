@@ -1,0 +1,4 @@
+"0","modeldata <- modeldata %>% "
+"0","  mutate(tacdata = map(tacdata, ~.x %>% "
+"0","                         mutate(across(.cols = Frontal:HippAmg, "
+"0","                                       ~unit_convert(.x, from_units = ""Bq"", to_units = ""kBq"")))))"

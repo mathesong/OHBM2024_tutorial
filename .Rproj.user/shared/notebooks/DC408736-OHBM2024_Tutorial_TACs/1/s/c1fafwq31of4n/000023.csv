@@ -1,0 +1,47 @@
+"0",""
+"0","bloodstream_data %>% "
+"0","  slice(1:6) %>% "
+"0","  pull(input) %>% "
+"0","  map(plot)"
+"1","[[1]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"
+"1","[[2]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"
+"1","[[3]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"
+"1","[[4]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"
+"1","[[5]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"
+"1","[[6]]
+"
+"2","Warning:"
+"2"," [38;5;232mRemoved 1 row containing missing values or values outside the scale range (`geom_line()`).[39m
+"
+"1","
+"

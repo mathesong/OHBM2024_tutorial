@@ -1,0 +1,1 @@
+{"frames":[{"func":"do.call(out, inner_join)","file":"","line_number":0,"end_line_number":0,"character_number":0,"end_character_number":0},{"func":"stop(\"second argument must be a list\")","file":"","line_number":0,"end_line_number":0,"character_number":0,"end_character_number":0}],"message":"Error in do.call(out, inner_join) : second argument must be a list\n"}

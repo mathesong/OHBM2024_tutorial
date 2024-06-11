@@ -10,8 +10,8 @@ output: html_notebook
 First we load up the packages we'll be working with
 
 ```{r}
-remotes::install_github("mathesong/bloodstream")
-remotes::install_github("mathesong/kinfitr")
+# remotes::install_github("mathesong/bloodstream")
+# remotes::install_github("mathesong/kinfitr")
 
 library(tidyverse)
 library(bloodstream)

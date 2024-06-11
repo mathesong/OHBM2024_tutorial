@@ -1,0 +1,6 @@
+"0","modeldata <- modeldata %>% "
+"0","  mutate(tacdata = map(tacdata, ~.x %>% "
+"0","                         mutate(frame_start = frame_start / 60,"
+"0","                                frame_end = frame_end / 60) %>% "
+"0","                         mutate(frame_dur = frame_end - frame_start,"
+"0","                                frame_mid = frame_start + 0.5*frame_dur)))"

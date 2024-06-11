@@ -1,0 +1,26 @@
+{
+    "id": "0B79C3AD",
+    "path": "~/Repositories/OHBM2024_Tutorial/ds004869/sub-01/ses-blocked/pet/sub-01_ses-blocked_pet.json",
+    "project_path": "ds004869/sub-01/ses-blocked/pet/sub-01_ses-blocked_pet.json",
+    "type": "json",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1718104509101.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "20,20",
+        "scrollLine": "190"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1718106301,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1718106301,
+    "read_only": false,
+    "read_only_alternatives": []
+}

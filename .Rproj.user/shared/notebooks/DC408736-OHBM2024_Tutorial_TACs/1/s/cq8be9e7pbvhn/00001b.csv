@@ -1,0 +1,8 @@
+"0","fit_2tc <- twotcm("
+"0","       t_tac = modeldata$tacdata[[1]]$frame_mid, "
+"0","       tac = modeldata$tacdata[[1]]$Frontal, "
+"0","       input = modeldata$input[[1]], "
+"0","       weights = modeldata$tacdata[[1]]$weights, "
+"0","       vB = 0.05, multstart_iter = 5)"
+"0",""
+"0","fit_2tc$par"

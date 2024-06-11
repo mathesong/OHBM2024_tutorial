@@ -1,0 +1,6 @@
+"0","modeldata <- modeldata %>% "
+"0","  mutate(tacdata = map(tacdata, ~.x %>% "
+"0","                         mutate(meanTAC = rowMeans( .x %>% select(Frontal:HippAmg) )) %>% "
+"0","                         mutate(weights = weights_create(t_start = frame_start,"
+"0","                                                         t_end = frame_end,"
+"0","                                                         tac = meanTAC))))"

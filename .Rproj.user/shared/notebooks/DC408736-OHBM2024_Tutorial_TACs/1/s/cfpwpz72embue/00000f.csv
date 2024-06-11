@@ -1,0 +1,2 @@
+"0","bloodstream_data <- bloodstream_import_inputfunctions(""ds004869/derivatives/bloodstreamtutorial/"") %>%"
+"0","  select(-measurement)"

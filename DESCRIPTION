@@ -1,0 +1,24 @@
+Type: Compendium
+Package: OHBM Tutorial
+Title: Tutorial On Kinfitr And Bloodstream
+Version: 0.0.1
+Authors@R: 
+    person("Granville", "Matheson", , "mathesong@gmail.com", role = c("aut", "cre"))
+Description: A short tutorial for OHBM2024 on kinfitr and bloodstream
+License: MIT + file LICENSE
+Depends: 
+    bloodstream,
+    dplyr,
+    fs,
+    job,
+    kinfitr,
+    purrr,
+    remotes,
+    rmarkdown,
+    stringr,
+    tidyverse
+Remotes: 
+    mathesong/kinfitr
+    mathesong/bloodstream
+Encoding: UTF-8
+LazyData: true
