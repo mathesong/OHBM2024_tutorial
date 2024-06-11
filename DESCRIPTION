@@ -18,7 +18,7 @@ Depends:
     stringr,
     tidyverse
 Remotes: 
-    mathesong/kinfitr
+    mathesong/kinfitr,
     mathesong/bloodstream
 Encoding: UTF-8
 LazyData: true
