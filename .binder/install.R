@@ -1,0 +1,13 @@
+install.packages(
+ c( 
+  "bloodstream",
+  "dplyr",
+  "fs",
+  "job",
+  "kinfitr",
+  "purrr",
+  "remotes",
+  "rmarkdown",
+  "stringr",
+  "tidyverse")
+)
