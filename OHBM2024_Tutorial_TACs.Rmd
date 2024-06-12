@@ -29,9 +29,12 @@ Here is an optional chunk to download the minified dataset. However, it should a
 ```{r, eval=FALSE}
 download.file("https://www.dropbox.com/scl/fi/ax1t3lfop3pp3h4cir0m7/ds004869.zip?rlkey=6z7e9wopud9ngu26ekbd3kfks&dl=1", 
               destfile = "ds004869.zip")
+```
 
+```{r}
 unzip(zipfile = "ds004869.zip")
 ```
+
 
 
 # Blood Analysis
