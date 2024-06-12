@@ -24,6 +24,8 @@ theme_set(theme_light())
 
 ## Data
 
+Here is an optional chunk to download the minified dataset. However, it should already be included in the binder.
+
 ```{r, eval=FALSE}
 download.file("https://www.dropbox.com/scl/fi/ax1t3lfop3pp3h4cir0m7/ds004869.zip?rlkey=6z7e9wopud9ngu26ekbd3kfks&dl=1", 
               destfile = "ds004869.zip")
@@ -34,13 +36,15 @@ unzip(zipfile = "ds004869.zip")
 
 # Blood Analysis
 
+Here we can run a basic blood analysis.  For anyone who wants to run it, I've placed it in a job call, which runs it in the background, but it may or may not make your session slow.
+
 ```{r, eval=FALSE}
 job({ 
   bloodstream("ds004869/") 
 })
 ```
 
-Alternatively, if you want to use a configuration file
+Alternatively, if you want to use a configuration file, this is how you could do so. You can inspect the config file in the relevant directory. But best not to run this: this takes a little longer, and it is not in a job call either, so you won't be able to do anything until it is completed.
 
 ```{r, eval=FALSE}
 bloodstream("ds004869/", configpath = "ds004869/code/config_tutorial.json") 
@@ -60,6 +64,8 @@ bloodstream_data <- bloodstream_import_inputfunctions("ds004869/derivatives/bloo
   select(-measurement)
 ```
 
+Let's plot a few of them to see.  These contain the interpolated curves, and can be used with `kinfitr` to perform kinetic modelling.
+
 ```{r}
 head(bloodstream_data, n = 6)
 
@@ -72,6 +78,11 @@ bloodstream_data %>%
 
 
 ## Loading petprep outputs (TACs and morphology)
+
+Now we want to load up the `petprep` outputs. There will eventually be a function for automating the next few steps, but the PET BIDS Derivatives guidelines are not yet nailed down, so we'll do it manually for now.
+
+First we parse the files and load in the data for the tacs and the morphology.
+
 
 ```{r}
 petprep_data <- kinfitr::bids_parse_files("ds004869/derivatives/petprep_extract_tacs/") %>% 
@@ -91,13 +102,13 @@ morphdata <- petprep_data %>%
 ```
 
 
-Here, we would usually combine TACs according to which combined regions we were interested in, and use volume-weighted averaging.  In this case, we'll just skip that step and be a little bit naughty and focus on one region: the left putamen.
+Now we have lots of little regions of interest, but they are all very small. Typically, we would want to combine regions into larger regions that we are interested in. We do so using volume-weighted averaging, which requires both the morphology and the TAC information. This will also soon be automated once the PET BIDS Derivatives are more finalised.
 
 ## Creating combined TACs
 
-Now we want to combine regions by volume-weighted averages of the contitutent regions.  We'll create a frontal cortex region, a striatal region and a hippocampus-amygdala region.
+We'll create a frontal cortex region, a striatal region and a hippocampus-amygdala region.
 
-First, let's define the regions
+First, let's define the regions by their constitutent parts.
 
 ```{r}
 frontal_regions <- morphdata$morphdata[[1]] %>% 
@@ -126,7 +137,7 @@ hipamg_regions
 ```
 
 
-Now we combine the TACs and the region sizes
+Now we combine the TACs and the region sizes side-by-side
 
 ```{r}
 selected_tacs <- select(tacs, c(ses:rec, tacdata)) %>% 
@@ -138,7 +149,7 @@ selected_tacs <- select(tacs, c(ses:rec, tacdata)) %>%
   mutate(tacdata = map2(tacdata, morphdata, ~inner_join(.x, .y, by="name")))
 ```
 
-Then we perform volume-weighted averaging
+Then we perform the volume-weighted averaging itself. I define a function to do it for one region, and another function to do it for multiple regions.
 
 ```{r}
 volume_weighted_average_tac <- function(tacdata, regions, regionname) {
@@ -186,7 +197,9 @@ selected_tacs <- selected_tacs %>%
 
 
 
-## Combining the TAC and blood (input) data
+# Combining the TAC and blood (input) data
+
+Now we combine the blood data and PET data so that we can perform modelling using both of them.
 
 ```{r}
 modeldata <- selected_tacs %>% 
@@ -199,18 +212,24 @@ modeldata <- selected_tacs %>%
 
 ## Preparation
 
+Many of these steps will be automated when the PET BIDS Derivatives are finalised. But for now, we'll do these ourselves.
+
 ### Correcting Units
 
-The TAC data are in Bq/mL, and the bloodstream data are in kBq/mL. So we correct this.
+The TAC data are in Bq/mL, and the bloodstream data are in kBq/mL. This is because Bq/mL is hard to read, but it is the SI unit. Future functions within `kinfitr` will automatically convert them.
 
 ```{r}
 modeldata <- modeldata %>% 
   mutate(tacdata = map(tacdata, ~.x %>% 
                          mutate(across(.cols = Frontal:HippAmg, 
-                                       ~unit_convert(.x, from_units = "Bq", to_units = "kBq")))))
+                                       ~unit_convert(.x, 
+                                                     from_units = "Bq", 
+                                                     to_units = "kBq")))))
 ```
 
 ### Adding frame midtimes and durations
+
+We only have frame_start and frame_end, but we want the midtimes and durations for modelling. We also want the times in minutes for modelling, so we'll convert them.
 
 ```{r}
 modeldata <- modeldata %>% 
@@ -224,6 +243,8 @@ modeldata <- modeldata %>%
 
 ### Adding weights
 
+There are many different weighting functions, many of which are included in `kinfitr`. I'll use the default one for now. We usually run the weights on a large global grey matter brain region. For today, we'll just take a mean TAC of our three regions and use that.
+
 ```{r}
 modeldata <- modeldata %>% 
   mutate(tacdata = map(tacdata, ~.x %>% 
@@ -236,6 +257,10 @@ modeldata <- modeldata %>%
 
 ## Fitting a single TAC
 
+Now we will fit the two-tissue compartment model to a single TAC just to see how it looks.
+
+First we should fi
+
 ```{r}
 fit_2tc <- twotcm(
        t_tac = modeldata$tacdata[[1]]$frame_mid, 
@@ -244,17 +269,23 @@ fit_2tc <- twotcm(
        weights = modeldata$tacdata[[1]]$weights, 
        vB = 0.05, multstart_iter = 5)
 
-fit_2tc$par
-
 plot(fit_2tc)
+
+fit_2tc$par
 ```
+
+That worked! 
+
+Notice that in the parameters, we have estimated an `inpshift`. This is the delay: a shift in the timing of the blood (input) data to the same time as the PET. This is necessary both because the tracer arrives at the brain at a slightly different time from when it arrives at the arm where we measure it, but also because it is hard for these two clocks to be perfectly synchronised. 
+
+We would usually fit the delay using the first 5 or 10 minutes of the acquisition using a large region for each individual with a one-tissue compartment model and check that. Then we would use that value when fitting the later models. That information is covered more fully in the full on my website.
 
 
 ## Fitting multiple TACs
 
-Here we'll use a linearised model because they fit more quickly, in this case Logan.  But most linearised models require a t\* value to operate.
+Here we'll use a linearised model because they fit more quickly, in this case Logan. They are also less sensitive to the delay time, so we can probably reasonably safely ignore it.  But most linearised models require a t\* time to operate.
 
-### Selecting a t\* value
+### Selecting a t\* time
 
 Let's choose an appropriate t\* value
 
@@ -275,11 +306,11 @@ modeldata %>%
   pull(tstarplot)
 ```
 
-Ok, let's use 13 frames.
+Ok, let's use 13 frames, corresponding with 57.5 minutes. 
 
 ### Fitting
 
-Let's focus on the frontal cortex
+Let's focus on the frontal cortex, and run the fitting for all measurements.
 
 ```{r}
 modeldata <- modeldata %>% 
@@ -302,7 +333,11 @@ Let's see a few fits
 map(modeldata[1:6,]$Logan_fit, plot)
 ```
 
+
+
 ### Outcomes
+
+Now let's observe the resulting V~T~ values.
 
 ```{r}
 Logan_outcomes <- modeldata %>% 
@@ -317,3 +352,4 @@ ggplot(Logan_outcomes, aes(x=ses, y=Vt, colour=sub, group=sub)) +
   scale_y_log10()
 ```
 
+As we can see, they are reduced after blocking with calecoxib as expected.
