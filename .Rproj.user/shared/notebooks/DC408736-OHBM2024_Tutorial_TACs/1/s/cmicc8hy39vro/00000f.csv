@@ -1,9 +1,0 @@
-"0","selected_tacs <- select(tacs, c(ses:rec, tacdata)) %>% "
-"0","  inner_join(select(morphdata, c(ses:rec, morphdata))) %>% "
-"0","  group_by(sub, ses) %>% "
-"0","  mutate(tacdata = map(tacdata, ~pivot_longer(.x, "
-"0","                                              cols = `Left-Cerebral-White-Matter`:`ctx-rh-insula`, "
-"0","                                              names_to = ""name"", values_to = ""TAC""))) %>% "
-"0","  mutate(tacdata = map2(tacdata, morphdata, ~inner_join(.x, .y, by=""name"")))"
-"1","[38;5;232mJoining with `by = join_by(ses, sub, task, trc, acq, run, rec)`[39m
-"

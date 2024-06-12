@@ -1,4 +1,4 @@
-"0","hipamg_regions <- selected_tacs$morphdata[[1]] %>% "
+"0","hipamg_regions <- morphdata$morphdata[[1]] %>% "
 "0","  filter(str_detect(name, ""Hippocampus|Amygdala"")) %>% "
 "0","  pull(name)"
 "0",""

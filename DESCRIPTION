@@ -7,11 +7,9 @@ Authors@R:
 Description: A short tutorial for OHBM2024 on kinfitr and bloodstream
 License: MIT + file LICENSE
 Depends: 
-    bloodstream,
     dplyr,
     fs,
     job,
-    kinfitr,
     purrr,
     remotes,
     rmarkdown,

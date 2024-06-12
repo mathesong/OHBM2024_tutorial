@@ -1,4 +1,0 @@
-"0","  out <- do.call(out, inner_join)
-"
-"2","Error in do.call(out, inner_join) : second argument must be a list
-"

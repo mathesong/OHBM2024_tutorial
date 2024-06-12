@@ -17,3 +17,5 @@
 "0","library(bloodstream)"
 "0","library(kinfitr)"
 "0","library(job)"
+"0",""
+"0","theme_set(theme_light())"

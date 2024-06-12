@@ -24,7 +24,7 @@ theme_set(theme_light())
 
 ## Data
 
-```{r}
+```{r, eval=FALSE}
 download.file("https://www.dropbox.com/scl/fi/ax1t3lfop3pp3h4cir0m7/ds004869.zip?rlkey=6z7e9wopud9ngu26ekbd3kfks&dl=1", 
               destfile = "ds004869.zip")
 
@@ -100,7 +100,7 @@ Now we want to combine regions by volume-weighted averages of the contitutent re
 First, let's define the regions
 
 ```{r}
-frontal_regions <- selected_tacs$morphdata[[1]] %>% 
+frontal_regions <- morphdata$morphdata[[1]] %>% 
   filter(str_detect(name, "frontal")) %>% 
   pull(name)
 
@@ -109,7 +109,7 @@ frontal_regions
 
 
 ```{r}
-striatal_regions <- selected_tacs$morphdata[[1]] %>% 
+striatal_regions <- morphdata$morphdata[[1]] %>% 
   filter(str_detect(name, "Putamen|Accumbens|Caudate")) %>% 
   pull(name)
 
@@ -118,7 +118,7 @@ striatal_regions
 
 
 ```{r}
-hipamg_regions <- selected_tacs$morphdata[[1]] %>% 
+hipamg_regions <- morphdata$morphdata[[1]] %>% 
   filter(str_detect(name, "Hippocampus|Amygdala")) %>% 
   pull(name)
 
@@ -186,7 +186,7 @@ selected_tacs <- selected_tacs %>%
 
 
 
-## Combining the data
+## Combining the TAC and blood (input) data
 
 ```{r}
 modeldata <- selected_tacs %>% 

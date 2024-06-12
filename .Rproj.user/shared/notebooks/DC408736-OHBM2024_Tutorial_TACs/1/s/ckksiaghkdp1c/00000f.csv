@@ -1,6 +1,5 @@
-"0","modeldata <- selected_tacs %>% 
-  select(ses:rec, tacdata = selected_tacdata) %>% 
-  inner_join(bloodstream_data)
-"
+"0","modeldata <- selected_tacs %>% "
+"0","  select(ses:rec, tacdata = selected_tacdata) %>% "
+"0","  inner_join(bloodstream_data)"
 "1","[38;5;232mJoining with `by = join_by(ses, sub, task, trc, acq, run, rec)`[39m
 "
