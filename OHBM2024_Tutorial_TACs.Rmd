@@ -262,8 +262,6 @@ modeldata <- modeldata %>%
 
 Now we will fit the two-tissue compartment model to a single TAC just to see how it looks.
 
-First we should fi
-
 ```{r}
 fit_2tc <- twotcm(
        t_tac = modeldata$tacdata[[1]]$frame_mid, 
